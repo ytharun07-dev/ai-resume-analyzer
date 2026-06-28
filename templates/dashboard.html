@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h2>Welcome, {{ user.username }} 👋</h2>
+
+            <hr>
+
+            <h4>AI Resume Analyzer Dashboard</h4>
+
+            <br>
+
+            <a href="/upload/" class="btn btn-primary">
+                Upload Resume
+            </a>
+
+            <a href="#" class="btn btn-success">
+                Analyze Resume
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

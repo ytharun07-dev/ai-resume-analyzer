@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 def register(request):
 
     if request.method == "POST":
@@ -51,10 +53,26 @@ def user_login(request):
 
             messages.success(request, "Login Successful!")
 
-            return redirect("/")
+            return redirect("dashboard")
 
         else:
 
             messages.error(request, "Invalid Username or Password")
 
     return render(request, "login.html")
+
+
+
+def user_logout(request):
+
+    logout(request)
+
+    messages.success(request, "Logged out successfully!")
+
+    return redirect("/")
+
+
+@login_required
+def dashboard(request):
+
+    return render(request, "dashboard.html")
