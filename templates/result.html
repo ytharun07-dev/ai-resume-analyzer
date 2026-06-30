@@ -10,31 +10,82 @@
 
     <div class="card-body">
 
-        <h3>ATS Score: {{ result.score }}%</h3>
+        <h2 class="text-center">
+            ATS Score: {{ result.score }}%
+        </h2>
 
-        <hr>
+        <div class="progress mb-4" style="height:30px;">
 
-        <h4>✅ Matched Skills</h4>
+            <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: {{ result.score }}%;">
 
-        <ul>
-            {% for skill in result.matched %}
-                <li>{{ skill }}</li>
-            {% empty %}
-                <li>No matched skills found.</li>
-            {% endfor %}
-        </ul>
+                {{ result.score }}%
 
-        <hr>
+            </div>
 
-        <h4>❌ Missing Skills</h4>
+        </div>
 
-        <ul>
-            {% for skill in result.missing %}
-                <li>{{ skill }}</li>
-            {% empty %}
-                <li>No missing skills.</li>
-            {% endfor %}
-        </ul>
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="card border-success">
+
+                    <div class="card-header bg-success text-white">
+                        <h4>✅ Matched Skills</h4>
+                    </div>
+
+                    <div class="card-body">
+
+                        {% for skill in result.matched %}
+
+                            <span class="badge bg-success m-1 p-2">
+                                {{ skill }}
+                            </span>
+
+                        {% empty %}
+
+                            <p>No matched skills.</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card border-danger">
+
+                    <div class="card-header bg-danger text-white">
+                        <h4>❌ Missing Skills</h4>
+                    </div>
+
+                    <div class="card-body">
+
+                        {% for skill in result.missing %}
+
+                            <span class="badge bg-danger m-1 p-2">
+                                {{ skill }}
+                            </span>
+
+                        {% empty %}
+
+                            <p>No missing skills.</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <br>
 

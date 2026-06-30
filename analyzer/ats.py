@@ -1,31 +1,5 @@
+from .constants import TECH_SKILLS
 import re
-
-TECH_SKILLS = [
-    "python",
-    "django",
-    "html",
-    "css",
-    "javascript",
-    "bootstrap",
-    "sql",
-    "mysql",
-    "oracle",
-    "git",
-    "github",
-    "docker",
-    "aws",
-    "linux",
-    "rest",
-    "api",
-    "react",
-    "flask",
-    "pandas",
-    "numpy",
-    "excel",
-    "power bi",
-    "communication",
-    "problem solving",
-]
 
 
 def calculate_ats_score(resume_text, job_description):

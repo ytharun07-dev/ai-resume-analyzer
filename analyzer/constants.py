@@ -1,0 +1,28 @@
+import re
+
+TECH_SKILLS = [
+    "python",
+    "django",
+    "html",
+    "css",
+    "javascript",
+    "bootstrap",
+    "sql",
+    "mysql",
+    "oracle",
+    "git",
+    "github",
+    "docker",
+    "aws",
+    "linux",
+    "rest",
+    "api",
+    "react",
+    "flask",
+    "pandas",
+    "numpy",
+    "excel",
+    "power bi",
+    "communication",
+    "problem solving",
+]
