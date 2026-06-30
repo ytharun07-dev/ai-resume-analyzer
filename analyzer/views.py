@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ResumeForm
 from .utils import extract_text_from_pdf
 from .models import Resume
+from .ats import calculate_ats_score
 
 
 @login_required
@@ -44,7 +45,28 @@ def upload_resume(request):
 @login_required
 def analyze_resume(request):
 
-    resume = Resume.objects.filter(user=request.user).last()
+    resume = Resume.objects.filter(
+        user=request.user
+    ).last()
+
+    if request.method == "POST":
+
+        job_description = request.POST.get(
+            "job_description"
+        )
+
+        result = calculate_ats_score(
+            resume.extracted_text,
+            job_description
+        )
+
+        return render(
+            request,
+            "result.html",
+            {
+                "result": result
+            }
+        )
 
     return render(
         request,

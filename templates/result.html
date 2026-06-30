@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-dark text-white">
+        <h2>ATS Analysis Result</h2>
+    </div>
+
+    <div class="card-body">
+
+        <h3>ATS Score: {{ result.score }}%</h3>
+
+        <hr>
+
+        <h4>✅ Matched Skills</h4>
+
+        <ul>
+            {% for skill in result.matched %}
+                <li>{{ skill }}</li>
+            {% empty %}
+                <li>No matched skills found.</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <h4>❌ Missing Skills</h4>
+
+        <ul>
+            {% for skill in result.missing %}
+                <li>{{ skill }}</li>
+            {% empty %}
+                <li>No missing skills.</li>
+            {% endfor %}
+        </ul>
+
+        <br>
+
+        <a href="/dashboard/" class="btn btn-primary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

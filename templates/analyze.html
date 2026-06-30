@@ -5,37 +5,40 @@
 <div class="card shadow">
 
     <div class="card-header bg-success text-white">
-
         <h3>Analyze Resume</h3>
-
     </div>
 
     <div class="card-body">
 
-        <h4>Extracted Resume</h4>
+        <form method="POST">
 
-        <textarea
-            class="form-control"
-            rows="12"
-            readonly>{{ resume.extracted_text }}</textarea>
+            {% csrf_token %}
 
-        <br>
+            <h4>Extracted Resume</h4>
 
-        <h4>Job Description</h4>
+            <textarea
+                class="form-control"
+                rows="12"
+                readonly>{{ resume.extracted_text }}</textarea>
 
-        <textarea
-            class="form-control"
-            rows="12"
-            placeholder="Paste Job Description here..."
-            name="job_description"></textarea>
+            <br>
 
-        <br>
+            <h4>Job Description</h4>
 
-        <button class="btn btn-success">
+            <textarea
+                class="form-control"
+                rows="12"
+                name="job_description"
+                placeholder="Paste Job Description here..."
+                required></textarea>
 
-            Analyze ATS
+            <br>
 
-        </button>
+            <button type="submit" class="btn btn-success">
+                Analyze ATS
+            </button>
+
+        </form>
 
     </div>
 
