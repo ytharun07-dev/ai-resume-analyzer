@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import ResumeForm
+from .utils import extract_text_from_pdf
+from .models import Resume
 
 
 @login_required
@@ -23,10 +25,31 @@ def upload_resume(request):
 
             resume.save()
 
-            return redirect("dashboard")
+            resume_text = extract_text_from_pdf(resume.resume.path)
+
+            resume.extracted_text = resume_text
+
+            resume.save()
+
+            return redirect("analyze")
 
     else:
 
         form = ResumeForm()
 
     return render(request, "upload_resume.html", {"form": form})
+
+
+
+@login_required
+def analyze_resume(request):
+
+    resume = Resume.objects.filter(user=request.user).last()
+
+    return render(
+        request,
+        "analyze.html",
+        {
+            "resume": resume
+        }
+    )

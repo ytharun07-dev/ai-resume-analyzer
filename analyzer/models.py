@@ -13,6 +13,10 @@ class Resume(models.Model):
         upload_to="resumes/"
     )
 
+    extracted_text = models.TextField(
+        blank=True
+    )
+
     uploaded_at = models.DateTimeField(
         auto_now_add=True
     )

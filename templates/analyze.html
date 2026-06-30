@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+
+        <h3>Analyze Resume</h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <h4>Extracted Resume</h4>
+
+        <textarea
+            class="form-control"
+            rows="12"
+            readonly>{{ resume.extracted_text }}</textarea>
+
+        <br>
+
+        <h4>Job Description</h4>
+
+        <textarea
+            class="form-control"
+            rows="12"
+            placeholder="Paste Job Description here..."
+            name="job_description"></textarea>
+
+        <br>
+
+        <button class="btn btn-success">
+
+            Analyze ATS
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

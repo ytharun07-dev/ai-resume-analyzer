@@ -1,0 +1,30 @@
+<form method="POST">
+
+    {% csrf_token %}
+
+    <h4>Extracted Resume</h4>
+
+    <textarea
+        class="form-control"
+        rows="12"
+        readonly>{{ resume_text }}</textarea>
+
+    <br>
+
+    <h4>Job Description</h4>
+
+    <textarea
+        class="form-control"
+        name="job_description"
+        rows="12"
+        placeholder="Paste Job Description here..."></textarea>
+
+    <br>
+
+    <button class="btn btn-success">
+
+        Analyze ATS
+
+    </button>
+
+</form>
