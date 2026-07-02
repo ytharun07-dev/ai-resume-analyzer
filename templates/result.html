@@ -10,25 +10,46 @@
 
     <div class="card-body">
 
+        <!-- ATS Score -->
         <h2 class="text-center">
             ATS Score: {{ result.score }}%
         </h2>
 
+        <!-- Progress Bar -->
         <div class="progress mb-4" style="height:30px;">
 
-            <div
-                class="progress-bar bg-success"
-                role="progressbar"
-                style="width: {{ result.score }}%;">
+            {% if result.score >= 80 %}
 
-                {{ result.score }}%
+                <div
+                    class="progress-bar bg-success"
+                    role="progressbar"
+                    style="width: {{ result.score }}%;">
 
-            </div>
+            {% elif result.score >= 50 %}
+
+                <div
+                    class="progress-bar bg-warning"
+                    role="progressbar"
+                    style="width: {{ result.score }}%;">
+
+            {% else %}
+
+                <div
+                    class="progress-bar bg-danger"
+                    role="progressbar"
+                    style="width: {{ result.score }}%;">
+
+            {% endif %}
+
+                    {{ result.score }}%
+
+                </div>
 
         </div>
 
         <div class="row">
 
+            <!-- Matched Skills -->
             <div class="col-md-6">
 
                 <div class="card border-success">
@@ -47,7 +68,7 @@
 
                         {% empty %}
 
-                            <p>No matched skills.</p>
+                            <p>No matched skills found.</p>
 
                         {% endfor %}
 
@@ -57,6 +78,7 @@
 
             </div>
 
+            <!-- Missing Skills -->
             <div class="col-md-6">
 
                 <div class="card border-danger">
@@ -87,11 +109,48 @@
 
         </div>
 
+        <hr>
+
+        <!-- Suggestions -->
+        <div class="card border-info mt-4">
+
+            <div class="card-header bg-info text-white">
+                <h4>💡 Suggestions</h4>
+            </div>
+
+            <div class="card-body">
+
+                <ul>
+
+                    {% for suggestion in result.suggestions %}
+
+                        <li>{{ suggestion }}</li>
+
+                    {% empty %}
+
+                        <li>No suggestions available.</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
         <br>
 
-        <a href="/dashboard/" class="btn btn-primary">
-            Back to Dashboard
-        </a>
+        <div class="text-center">
+
+            <a href="{% url 'home' %}" class="btn btn-primary">
+                Back to Dashboard
+            </a>
+
+            <a href="{% url 'upload' %}" class="btn btn-success ms-2">
+                Upload New Resume
+            </a>
+
+        </div>
 
     </div>
 

@@ -5,6 +5,7 @@ from .utils import extract_text_from_pdf
 from .models import Resume
 from .ats import calculate_ats_score
 from django.contrib import messages
+from .suggestions import generate_suggestions
 
 
 @login_required
@@ -58,6 +59,10 @@ def analyze_resume(request):
         result = calculate_ats_score(
             resume.extracted_text,
             job_description
+        )
+
+        result["suggestions"] = generate_suggestions(
+            result["missing"]
         )
 
         return render(
