@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+
 from .forms import ResumeForm
 from .utils import extract_text_from_pdf
 from .models import Resume
 from .ats import calculate_ats_score
-from django.contrib import messages
 from .suggestions import generate_suggestions
+from .categories import categorize_skills
 
 
 @login_required
@@ -28,7 +29,9 @@ def upload_resume(request):
 
             resume.save()
 
-            resume_text = extract_text_from_pdf(resume.resume.path)
+            resume_text = extract_text_from_pdf(
+                resume.resume.path
+            )
 
             resume.extracted_text = resume_text
 
@@ -40,21 +43,30 @@ def upload_resume(request):
 
         form = ResumeForm()
 
-    return render(request, "upload_resume.html", {"form": form})
-
+    return render(
+        request,
+        "upload_resume.html",
+        {
+            "form": form
+        }
+    )
 
 
 @login_required
 def analyze_resume(request):
 
-    resume = Resume.objects.filter(user=request.user).last()
+    resume = Resume.objects.filter(
+        user=request.user
+    ).last()
 
     if resume is None:
         return redirect("upload")
 
     if request.method == "POST":
 
-        job_description = request.POST.get("job_description")
+        job_description = request.POST.get(
+            "job_description"
+        )
 
         result = calculate_ats_score(
             resume.extracted_text,
@@ -64,6 +76,20 @@ def analyze_resume(request):
         result["suggestions"] = generate_suggestions(
             result["missing"]
         )
+
+        result["categories"] = categorize_skills(
+            result["matched"],
+            result["missing"]
+        )
+
+        if result["score"] >= 80:
+            result["progress_color"] = "bg-success"
+
+        elif result["score"] >= 50:
+            result["progress_color"] = "bg-warning"
+
+        else:
+            result["progress_color"] = "bg-danger"
 
         return render(
             request,

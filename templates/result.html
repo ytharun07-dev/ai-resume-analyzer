@@ -2,75 +2,108 @@
 
 {% block content %}
 
-<div class="card shadow">
+<div class="container">
 
-    <div class="card-header bg-dark text-white">
-        <h2>ATS Analysis Result</h2>
-    </div>
+    <div class="card shadow">
 
-    <div class="card-body">
+        <div class="card-header bg-dark text-white">
+            <h2>ATS Analysis Result</h2>
+        </div>
 
-        <!-- ATS Score -->
-        <h2 class="text-center">
-            ATS Score: {{ result.score }}%
-        </h2>
+        <div class="card-body">
 
-        <!-- Progress Bar -->
-        <div class="progress mb-4" style="height:30px;">
+            <!-- ATS Score -->
 
-            {% if result.score >= 80 %}
+            <h2 class="text-center mb-4">
 
-                <div
-                    class="progress-bar bg-success"
-                    role="progressbar"
-                    style="width: {{ result.score }}%;">
+                ATS Score : {{ result.score }}%
 
-            {% elif result.score >= 50 %}
+            </h2>
+
+            <div class="progress mb-5" style="height:30px;">
 
                 <div
-                    class="progress-bar bg-warning"
+                    class="progress-bar {{ result.progress_color }}"
                     role="progressbar"
                     style="width: {{ result.score }}%;">
-
-            {% else %}
-
-                <div
-                    class="progress-bar bg-danger"
-                    role="progressbar"
-                    style="width: {{ result.score }}%;">
-
-            {% endif %}
 
                     {{ result.score }}%
 
                 </div>
 
-        </div>
+            </div>
 
-        <div class="row">
+            <!-- Categories -->
 
-            <!-- Matched Skills -->
-            <div class="col-md-6">
+            {% for category, data in result.categories.items %}
 
-                <div class="card border-success">
+            <div class="card mb-4 shadow-sm">
 
-                    <div class="card-header bg-success text-white">
-                        <h4>✅ Matched Skills</h4>
-                    </div>
+                <div class="card-header bg-primary text-white">
 
-                    <div class="card-body">
+                    <h4>{{ category }}</h4>
 
-                        {% for skill in result.matched %}
+                </div>
 
-                            <span class="badge bg-success m-1 p-2">
-                                {{ skill }}
-                            </span>
+                <div class="card-body">
 
-                        {% empty %}
+                    <div class="row">
 
-                            <p>No matched skills found.</p>
+                        <div class="col-md-6">
 
-                        {% endfor %}
+                            <h5 class="text-success">
+
+                                ✅ Matched
+
+                            </h5>
+
+                            {% if data.matched %}
+
+                                {% for skill in data.matched %}
+
+                                    <span class="badge bg-success p-2 m-1">
+
+                                        {{ skill }}
+
+                                    </span>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <p>No matched skills.</p>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <h5 class="text-danger">
+
+                                ❌ Missing
+
+                            </h5>
+
+                            {% if data.missing %}
+
+                                {% for skill in data.missing %}
+
+                                    <span class="badge bg-danger p-2 m-1">
+
+                                        {{ skill }}
+
+                                    </span>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <p>No missing skills.</p>
+
+                            {% endif %}
+
+                        </div>
 
                     </div>
 
@@ -78,77 +111,57 @@
 
             </div>
 
-            <!-- Missing Skills -->
-            <div class="col-md-6">
+            {% endfor %}
 
-                <div class="card border-danger">
+            <!-- Suggestions -->
 
-                    <div class="card-header bg-danger text-white">
-                        <h4>❌ Missing Skills</h4>
-                    </div>
+            <div class="card border-info shadow">
 
-                    <div class="card-body">
+                <div class="card-header bg-info text-white">
 
-                        {% for skill in result.missing %}
+                    <h4>💡 Suggestions</h4>
 
-                            <span class="badge bg-danger m-1 p-2">
-                                {{ skill }}
-                            </span>
+                </div>
+
+                <div class="card-body">
+
+                    <ul>
+
+                        {% for suggestion in result.suggestions %}
+
+                            <li>{{ suggestion }}</li>
 
                         {% empty %}
 
-                            <p>No missing skills.</p>
+                            <li>No suggestions available.</li>
 
                         {% endfor %}
 
-                    </div>
+                    </ul>
 
                 </div>
 
             </div>
 
-        </div>
+            <div class="text-center mt-4">
 
-        <hr>
+                <a
+                    href="{% url 'home' %}"
+                    class="btn btn-primary">
 
-        <!-- Suggestions -->
-        <div class="card border-info mt-4">
+                    Dashboard
 
-            <div class="card-header bg-info text-white">
-                <h4>💡 Suggestions</h4>
-            </div>
+                </a>
 
-            <div class="card-body">
+                <a
+                    href="{% url 'upload' %}"
+                    class="btn btn-success">
 
-                <ul>
+                    Upload New Resume
 
-                    {% for suggestion in result.suggestions %}
-
-                        <li>{{ suggestion }}</li>
-
-                    {% empty %}
-
-                        <li>No suggestions available.</li>
-
-                    {% endfor %}
-
-                </ul>
+                </a>
 
             </div>
-
-        </div>
-
-        <br>
-
-        <div class="text-center">
-
-            <a href="{% url 'home' %}" class="btn btn-primary">
-                Back to Dashboard
-            </a>
-
-            <a href="{% url 'upload' %}" class="btn btn-success ms-2">
-                Upload New Resume
-            </a>
 
         </div>
 
